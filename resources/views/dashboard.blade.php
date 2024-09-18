@@ -22,33 +22,33 @@
             Ralat. Sila betulkan kembali form anda dan submit balik.
         </div>
 
-        <form id="myform" action="https://learnjs.test" method="POST">
+        <form id="myform" action="/" method="POST">
             <div class="mb-3">
                 <label for="nama" class="form-label">Nama</label>
                 <input type="text" class="form-control" name="nama" id="nama" />
 
-                <p id="nama_error" class="text-danger"></p>
+                <p id="nama_error" class="text-red-600"></p>
             </div>
 
             <div class="mb-3">
                 <label for="emel" class="form-label">Emel</label>
                 <input type="text" class="form-control" name="emel" id="emel" />
 
-                <p id="emel_error" class="text-danger"></p>
+                <p id="emel_error" class="text-red-600"></p>
             </div>
 
             <div class="mb-3">
                 <label for="umur" class="form-label">Umur (min 18)</label>
                 <input type="text" class="form-control" name="umur" id="umur" />
 
-                <p id="umur_error" class="text-danger"></p>
+                <p id="umur_error" class="text-red-600"></p>
             </div>
 
             <div class="mb-3">
                 <label for="username" class="form-label">Username (Alpha numeric)</label>
                 <input type="text" class="form-control" name="username" id="username" />
 
-                <p id="username_error" class="text-danger"></p>
+                <p id="username_error" class="text-red-600"></p>
             </div>
 
             <button type="submit" class="bg-gray-800 text-white p-2 rounded">Hantar</button>
@@ -64,6 +64,8 @@
     });
 
     function submitAjax() {
+
+        resetForm();
 
         var nama = $("#nama").val();
         var emel = $("#emel").val();
@@ -87,11 +89,42 @@
                 console.log(response);
             },
             error: function(xhr) {
-                alert('An error occurred while submitting the form');
-                console.error(xhr.responseText);
+
+                var error_response = JSON.parse(xhr.responseText);
+
+                var errors = error_response.errors;
+
+                // show validation error
+
+                if (errors.nama) {
+                    var nama_error = errors.nama[0];
+                    $("#nama_error").text(nama_error);
+                }
+
+                if (errors.umur) {
+                    var umur_error = errors.umur[0];
+                    $("#umur_error").text(umur_error);
+                }
+
+                if (errors.emel) {
+                    var emel_error = errors.emel[0];
+                    $("#emel_error").text(emel_error);
+                }
+
+                if (errors.username) {
+                    var username_error = errors.username[0];
+                    $("#username_error").text(username_error);
+                }
             }
         });
 
 
+    }
+
+    function resetForm() {
+        $("#nama_error").text("");
+        $("#emel_error").text("");
+        $("#umur_error").text("");
+        $("#username_error").text("");
     }
 </script>
