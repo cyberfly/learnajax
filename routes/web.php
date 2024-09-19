@@ -20,6 +20,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/books', [BookController::class, 'index'])->name('books.index');
     Route::get('/books/search', [BookController::class, 'search'])->name('books.search');
 
+    Route::get('/forms/dropdown', [FormController::class, 'dropdown_example'])->name('forms.dropdown');
+
+    Route::get('/forms/search_daerah', [FormController::class, 'search_daerah'])->name('forms.search_daerah');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
